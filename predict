@@ -1,0 +1,34 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+# Varsayılan veri (örneğin CSV'den yüklenmiş olabilir)
+data = {
+    'Size': [50, 60, 70, 80, 90, 100, 110, 120, 130, 140],
+    'Price': [150, 200, 250, 300, 350, 400, 450, 500, 550, 600]
+}
+df = pd.DataFrame(data)
+
+# Özellikleri ve hedef değişkeni ayırma
+X = df[['Size']]
+y = df['Price']
+
+# Veriyi eğitim ve test setlerine ayırma
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Lineer regresyon modelini oluşturma
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Model eğitimini tamamladıktan sonra kullanıcıdan veri alarak tahmin yapma
+# Kullanıcıdan ev boyutu girdi alma
+user_input_size = float(input("Ev boyutunu giriniz (metrekare): "))
+
+# Kullanıcıdan alınan veriyi tahmin için hazırlama
+user_input = pd.DataFrame({'Size': [user_input_size]})
+
+# Tahmin yapma
+predicted_price = model.predict(user_input)
+
+print(f"Bu boyuttaki evin tahmin edilen fiyatı: {predicted_price[0]:.2f} bin TL")
